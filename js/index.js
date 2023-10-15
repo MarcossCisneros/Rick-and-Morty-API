@@ -1,14 +1,26 @@
-function getCharacters(data) {
+const results = fetch("https://rickandmortyapi.com/api/character");
+results
+  .then((response) => response.json())
+  .then((res) => {
+    filter(res.results), renderizarTarjetas(res.results);
+  });
+
+const todos = document.querySelector(".todos");
+
+todos.addEventListener("click", () => {
   const results = fetch("https://rickandmortyapi.com/api/character");
   results
     .then((response) => response.json())
     .then((res) => {
-      data(res);
+      filter(res.results), renderizarTarjetas(res.results);
     });
-}
+});
 
-getCharacters((data) => {
-  data.results.forEach((personaje) => {
+function renderizarTarjetas(data) {
+  const contenedor = document.querySelector(".character__container");
+  contenedor.innerHTML = "";
+
+  data.forEach((personaje) => {
     const article = document.createElement("article");
 
     article.innerHTML = `
@@ -29,27 +41,18 @@ getCharacters((data) => {
     const container = document.querySelector(".character__container");
     container.appendChild(article);
   });
-});
-
-function Filter() {
-  const buttonFilter = document.querySelectorAll(".button__filter");
 }
 
-/*
-    <main>
-      <article class="character">
-        <p class="character__name">alberto</p>
-        <img
-          src="https://rickandmortyapi.com/api/character/avatar/492.jpeg"
-          alt=""
-          class="character__img"
-        />
-        <div class="character__details">
-          <p class="character__status">Alive</p>
-          <p class="character__species">Alien</p>
-          <p class="character__origin">Luna</p>
-        </div>
-      </article>
-    </main>
+function filter(data) {
+  const botones = document.querySelectorAll(".button__filter");
 
-*/
+  botones.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const personajeCategoria = data.filter(
+        (personaje) => personaje.species === e.currentTarget.id
+      );
+
+      renderizarTarjetas(personajeCategoria);
+    });
+  });
+}
