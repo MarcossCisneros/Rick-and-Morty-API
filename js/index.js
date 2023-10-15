@@ -31,6 +31,10 @@ getCharacters((data) => {
   });
 });
 
+function Filter() {
+  const buttonFilter = document.querySelectorAll(".button__filter");
+}
+
 /*
     <main>
       <article class="character">
